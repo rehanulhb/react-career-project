@@ -2,13 +2,21 @@ import { MdLocationOn, MdLocalPhone, MdOutlineEmail } from "react-icons/md";
 import { useLoaderData, useParams } from "react-router-dom";
 import { PiSubtitles } from "react-icons/pi";
 import { AiOutlineDollar } from "react-icons/ai";
+import { ToastContainer, toast } from 'react-toastify';
+
+  import 'react-toastify/dist/ReactToastify.css';
+import { saveJobApplication } from "../utility/localstorage";
 
 const JobDetails = () => {
     const jobs = useLoaderData();
     const {id} =  useParams();
     const idInt = parseInt(id);
 
-    const job = jobs.find(job => job.id === idInt)
+    const job = jobs.find(job => job.id === idInt);
+    const handleApplyJob = () =>{
+        saveJobApplication(id)
+        toast('You have applied succesfully');
+    }
 
     
     
@@ -54,10 +62,12 @@ const JobDetails = () => {
                             <p className="flex mr-4"><MdOutlineEmail className="text-2xl mr-2"></MdOutlineEmail>{job.contact_information.email}</p>
                         </div>
                         <br />
-                       <button className="btn btn-primary w-full">Apply Now</button>
+                       <button onClick={handleApplyJob} className="btn btn-primary w-full">Apply Now</button>
                 </div>
+                
 
             </div>
+            <ToastContainer />
         </div>
     );
 };
